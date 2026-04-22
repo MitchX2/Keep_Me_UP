@@ -105,50 +105,55 @@
     </ion-card>
 
     <ion-card class="matches-card" *ngIf="selectedLeague">
-      <ion-card-header>
-        <ion-card-title>Upcoming Matches</ion-card-title>
-      </ion-card-header>
+  <ion-card-header>
+    <ion-card-title>Upcoming Matches</ion-card-title>
+  </ion-card-header>
 
-      <ion-card-content>
-        <div class="matches-scroll" *ngIf="matches?.length; else noMatches">
-          <div class="match-card" *ngFor="let match of matches">
-            <div class="match-teams">
-              <div class="match-side home-side">
-                <img
-                  *ngIf="getTeamBadge(match.idHomeTeam)"
-                  [src]="getTeamBadge(match.idHomeTeam)!"
-                  [alt]="match.strHomeTeam + ' badge'"
-                  class="match-badge"
-                />
-                <div class="match-team">{{ match.strHomeTeam }}</div>
-              </div>
-
-              <div class="match-vs">vs</div>
-
-              <div class="match-side away-side">
-                <img
-                  *ngIf="getTeamBadge(match.idAwayTeam)"
-                  [src]="getTeamBadge(match.idAwayTeam)!"
-                  [alt]="match.strAwayTeam + ' badge'"
-                  class="match-badge"
-                />
-                <div class="match-team">{{ match.strAwayTeam }}</div>
-              </div>
+    <ion-card-content>
+      <div class="matches-scroll" *ngIf="matches?.length; else noMatches">
+        <button
+          class="match-card"
+          type="button"
+          *ngFor="let match of matches"
+          (click)="openMatchday(match)"
+        >
+          <div class="match-teams">
+            <div class="match-side home-side">
+              <img
+                *ngIf="getTeamBadge(match.idHomeTeam)"
+                [src]="getTeamBadge(match.idHomeTeam)!"
+                [alt]="match.strHomeTeam + ' badge'"
+                class="match-badge"
+              />
+              <div class="match-team">{{ match.strHomeTeam }}</div>
             </div>
 
-            <div class="match-meta">
-              <p><strong>Date:</strong> {{ match.dateEvent || 'TBC' }}</p>
-              <p><strong>Kick-Off:</strong> {{ match.strTime || 'TBC' }}</p>
-              <p *ngIf="match.strVenue"><strong>Venue:</strong> {{ match.strVenue }}</p>
+            <div class="match-vs">vs</div>
+
+            <div class="match-side away-side">
+              <img
+                *ngIf="getTeamBadge(match.idAwayTeam)"
+                [src]="getTeamBadge(match.idAwayTeam)!"
+                [alt]="match.strAwayTeam + ' badge'"
+                class="match-badge"
+              />
+              <div class="match-team">{{ match.strAwayTeam }}</div>
             </div>
           </div>
-        </div>
 
-        <ng-template #noMatches>
-          <p class="empty-state">No upcoming fixtures available for this league right now.</p>
-        </ng-template>
-      </ion-card-content>
-    </ion-card>
+          <div class="match-meta">
+            <p><strong>Date:</strong> {{ match.dateEvent || 'TBC' }}</p>
+            <p><strong>Kick-Off:</strong> {{ match.strTime || 'TBC' }}</p>
+            <p *ngIf="match.strVenue"><strong>Venue:</strong> {{ match.strVenue }}</p>
+          </div>
+        </button>
+      </div>
+
+      <ng-template #noMatches>
+        <p class="empty-state">No upcoming fixtures available for this league right now.</p>
+      </ng-template>
+    </ion-card-content>
+  </ion-card>
 
   </div>
 </ion-content>

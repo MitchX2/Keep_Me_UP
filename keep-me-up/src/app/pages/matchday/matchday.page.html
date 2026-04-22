@@ -1,13 +1,217 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>matchday</ion-title>
+<ion-header>
+  <ion-toolbar class="page-toolbar">
+    <div class="page-top-bar">
+      <div class="page-top-side left-side">
+        <ion-button
+          fill="clear"
+          class="header-button"
+          (click)="goBack()"
+        >
+          Back
+        </ion-button>
+      </div>
+
+      <button class="banner-button" type="button" (click)="goHome()">
+        <img
+          src="assets/banner/keep-me-up_banner.png"
+          alt="Keep Me Up banner"
+          class="banner-image"
+        />
+      </button>
+
+      <div class="page-top-side right-side">
+        <ion-button
+          fill="clear"
+          class="header-button"
+          [routerLink]="['/settings']"
+        >
+          Settings
+        </ion-button>
+      </div>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">matchday</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="matchday-content">
+  <div class="matchday-page ion-padding">
+    <div class="loading-wrap" *ngIf="loading">
+      <ion-spinner></ion-spinner>
+    </div>
+
+    <div *ngIf="!loading && homeTeam && awayTeam" class="matchday-layout">
+      <ion-card class="match-info-card">
+        <ion-card-content>
+          <div class="match-header">
+            <div class="team-crest left">
+              <img
+                *ngIf="homeTeam.strBadge"
+                [src]="homeTeam.strBadge"
+                [alt]="homeTeam.strTeam"
+              />
+            </div>
+
+            <div class="match-info">
+              <div class="match-info-line" *ngIf="matchInfo.venue">{{ matchInfo.venue }}</div>
+              <div class="match-info-line" *ngIf="matchInfo.date">{{ matchInfo.date }}</div>
+              <div class="match-info-line" *ngIf="matchInfo.time">{{ matchInfo.time }}</div>
+            </div>
+
+            <div class="team-crest right">
+              <img
+                *ngIf="awayTeam.strBadge"
+                [src]="awayTeam.strBadge"
+                [alt]="awayTeam.strTeam"
+              />
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <div class="comparison-grid">
+        <div class="team-column" [ngStyle]="getTeamColumnStyle(homeTeam)">
+          <div class="jersey-card">
+            <img
+              *ngIf="homeTeam.strEquipment; else homeBadgeFallback"
+              [src]="homeTeam.strEquipment"
+              [alt]="homeTeam.strTeam + ' jersey'"
+              class="team-jersey"
+            />
+            <ng-template #homeBadgeFallback>
+              <img
+                *ngIf="homeTeam.strBadge"
+                [src]="homeTeam.strBadge"
+                [alt]="homeTeam.strTeam"
+                class="team-fallback-badge"
+              />
+            </ng-template>
+          </div>
+
+          <div class="summary-card" [ngStyle]="getSummaryCardStyle(homeTeam)">
+            <h2 class="team-name">{{ homeTeam.strTeam }}</h2>
+
+            <div class="summary-stats-grid">
+              <div class="summary-stat-block">
+                <span class="summary-label">Pos</span>
+                <span class="summary-value">{{ homeStanding?.intRank ?? '-' }}</span>
+              </div>
+
+              <div class="summary-stat-block form-block">
+                <span class="summary-label">Form</span>
+                <div class="form-lines">
+                  <span>W: {{ homeStanding?.intWin ?? '-' }}</span>
+                  <span>D: {{ homeStanding?.intDraw ?? '-' }}</span>
+                  <span>L: {{ homeStanding?.intLoss ?? '-' }}</span>
+                </div>
+              </div>
+
+              <div class="summary-stat-block">
+                <span class="summary-label">Pts</span>
+                <span class="summary-value">{{ homeStanding?.intPoints ?? '-' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="results-card">
+            <h3>Form</h3>
+
+            <div class="result-row" *ngFor="let match of homeMatches">
+              <div class="result-badges">
+                <img
+                  *ngIf="match.strHomeTeamBadge"
+                  [src]="match.strHomeTeamBadge"
+                  [alt]="match.strHomeTeam"
+                  class="result-badge"
+                />
+                <span class="result-score">{{ getMatchScore(match) }}</span>
+                <img
+                  *ngIf="match.strAwayTeamBadge"
+                  [src]="match.strAwayTeamBadge"
+                  [alt]="match.strAwayTeam"
+                  class="result-badge"
+                />
+              </div>
+
+              <div class="result-meta">
+                <span>{{ match.dateEvent }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-column" [ngStyle]="getTeamColumnStyle(awayTeam)">
+          <div class="jersey-card">
+            <img
+              *ngIf="awayTeam.strEquipment; else awayBadgeFallback"
+              [src]="awayTeam.strEquipment"
+              [alt]="awayTeam.strTeam + ' jersey'"
+              class="team-jersey"
+            />
+            <ng-template #awayBadgeFallback>
+              <img
+                *ngIf="awayTeam.strBadge"
+                [src]="awayTeam.strBadge"
+                [alt]="awayTeam.strTeam"
+                class="team-fallback-badge"
+              />
+            </ng-template>
+          </div>
+
+          <div class="summary-card" [ngStyle]="getSummaryCardStyle(awayTeam)">
+            <h2 class="team-name">{{ awayTeam.strTeam }}</h2>
+
+            <div class="summary-stats-grid">
+              <div class="summary-stat-block">
+                <span class="summary-label">Pos</span>
+                <span class="summary-value">{{ awayStanding?.intRank ?? '-' }}</span>
+              </div>
+
+              <div class="summary-stat-block form-block">
+                <span class="summary-label">Form</span>
+                <div class="form-lines">
+                  <span>W: {{ awayStanding?.intWin ?? '-' }}</span>
+                  <span>D: {{ awayStanding?.intDraw ?? '-' }}</span>
+                  <span>L: {{ awayStanding?.intLoss ?? '-' }}</span>
+                </div>
+              </div>
+
+              <div class="summary-stat-block">
+                <span class="summary-label">Pts</span>
+                <span class="summary-value">{{ awayStanding?.intPoints ?? '-' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="results-card">
+            <h3>Form</h3>
+
+            <div class="result-row" *ngFor="let match of awayMatches">
+              <div class="result-badges">
+                <img
+                  *ngIf="match.strHomeTeamBadge"
+                  [src]="match.strHomeTeamBadge"
+                  [alt]="match.strHomeTeam"
+                  class="result-badge"
+                />
+                <span class="result-score">{{ getMatchScore(match) }}</span>
+                <img
+                  *ngIf="match.strAwayTeamBadge"
+                  [src]="match.strAwayTeamBadge"
+                  [alt]="match.strAwayTeam"
+                  class="result-badge"
+                />
+              </div>
+
+              <div class="result-meta">
+                <span>{{ match.dateEvent }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!loading && (!homeTeam || !awayTeam)" class="empty-state-page">
+      Matchday comparison could not be loaded.
+    </div>
+  </div>
 </ion-content>

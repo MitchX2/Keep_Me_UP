@@ -102,4 +102,17 @@ export class HomePage implements OnInit {
   goHome(): void {
     this.router.navigate(['/home']);
   }
+
+  openMatchday(match: Match): void {
+    this.router.navigate(['/matchday'], {
+      queryParams: {
+        homeId: match.idHomeTeam,
+        awayId: match.idAwayTeam,
+        leagueId: this.selectedLeague?.id,
+        date: match.dateEvent,
+        time: match.strTime,
+        venue: match.strVenue
+      }
+    });
+  }
 }

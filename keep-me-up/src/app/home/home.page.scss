@@ -296,9 +296,26 @@ ion-card-title {
   }
 
   .match-card {
-    flex-basis: 300px;
-    min-height: 230px;
-  }
+  flex: 0 0 340px;
+  min-height: 240px;
+  padding: 1.15rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.match-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.match-card:focus-visible {
+  outline: 2px solid var(--ion-color-primary);
+  outline-offset: 2px;
+}
+
 
   .match-badge {
     width: 44px;
