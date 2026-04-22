@@ -1,0 +1,81 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Keep Me Up</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Select League</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-segment
+        [value]="selectedLeague?.id"
+        (ionChange)="onLeagueChange($event)"
+      >
+        <ion-segment-button *ngFor="let league of leagues" [value]="league.id">
+          <ion-label>{{ league.name }}</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ selectedLeague?.name }} Table</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-spinner *ngIf="loading"></ion-spinner>
+
+      <ion-list *ngIf="!loading">
+        <ion-item
+          *ngFor="let team of standings"
+          button
+          (click)="selectTeam(team.idTeam)"
+          [class.selected-team]="selectedTeamId === team.idTeam"
+        >
+          <ion-label>
+            <h2>{{ team.intRank }}. {{ team.strTeam }}</h2>
+            <p>
+              P: {{ team.intPlayed }} |
+              W: {{ team.intWin }} |
+              D: {{ team.intDraw }} |
+              L: {{ team.intLoss }} |
+              Pts: {{ team.intPoints }}
+            </p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+
+      <ion-button
+        *ngIf="selectedTeamId"
+        expand="block"
+        [routerLink]="['/team', selectedTeamId]"
+      >
+        View Team
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Upcoming Matches</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let match of matches">
+          <ion-label>
+            <h2>{{ match.strHomeTeam }} vs {{ match.strAwayTeam }}</h2>
+            <p>{{ match.dateEvent }} {{ match.strTime }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

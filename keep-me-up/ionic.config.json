@@ -1,0 +1,7 @@
+{
+  "name": "keep-me-up",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
