@@ -1,0 +1,309 @@
+.page-toolbar {
+  --background: var(--ion-color-primary);
+  --padding-start: 0;
+  --padding-end: 0;
+  --min-height: auto;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.action-buttons ion-button {
+  width: 80%;
+  max-width: 300px;
+}
+
+.action-buttons-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.action-buttons-row ion-button {
+  flex: 1;
+  max-width: 150px;
+}
+
+.page-top-bar {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr) 110px;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1rem 0.75rem;
+  background: var(--ion-color-primary);
+}
+
+.page-top-side {
+  display: flex;
+  align-items: center;
+}
+
+.left-side {
+  justify-content: flex-start;
+}
+
+.right-side {
+  justify-content: flex-end;
+}
+
+.header-button {
+  --color: white;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.banner-button {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.banner-image {
+  display: block;
+  width: 100%;
+  max-width: 1080px;
+  height: 86px;
+  object-fit: contain;
+  border-radius: 18px;
+}
+
+.team-detail-content {
+  --background: var(--ion-color-light);
+}
+
+.team-detail-page {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.team-profile-card,
+.team-extra-card {
+  border-radius: 20px;
+}
+
+.team-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 1.5rem;
+  align-items: start;
+  margin-bottom: 1.5rem;
+}
+
+.team-identity {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.team-badge-large {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.team-name-block {
+  min-width: 0;
+}
+
+.team-name {
+  margin: 0 0 0.4rem;
+  font-size: 2.3rem;
+  line-height: 1.15;
+}
+
+.team-subtitle {
+  margin: 0;
+  font-size: 1.1rem;
+  opacity: 0.85;
+}
+
+.team-jersey-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.team-jersey {
+  width: 180px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.team-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin-bottom: 1.25rem;
+}
+
+.info-pill {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.info-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.info-value {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.team-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.team-description {
+  margin: 0;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.recent-matches-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.recent-match-row {
+  padding: 0.95rem 1rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.match-row-main {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.35rem;
+}
+
+.match-fixture {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.match-score {
+  font-size: 1.05rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.match-row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+.empty-state,
+.empty-state-page {
+  font-size: 1rem;
+  opacity: 0.85;
+}
+
+.empty-state-page {
+  padding: 2rem 0;
+  text-align: center;
+}
+
+ion-card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .page-top-bar {
+    grid-template-columns: 70px minmax(0, 1fr) 88px;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .banner-image {
+    height: 60px;
+    border-radius: 14px;
+  }
+
+  .header-button {
+    font-size: 0.9rem;
+  }
+
+  .team-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .team-identity {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .team-badge-large {
+    width: 110px;
+    height: 110px;
+  }
+
+  .team-name {
+    font-size: 1.9rem;
+  }
+
+  .team-subtitle {
+    font-size: 1rem;
+  }
+
+  .team-jersey {
+    width: 150px;
+  }
+
+  .team-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .match-row-main {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .match-fixture,
+  .match-score {
+    font-size: 1rem;
+  }
+
+  ion-card-title {
+    font-size: 1.35rem;
+  }
+}

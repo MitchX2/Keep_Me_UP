@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 import { FootballService } from '../../services/football.service';
 import { Team } from '../../models/team.model';
@@ -22,49 +22,37 @@ export class TeamsPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
+    private location: Location,
     private footballService: FootballService
   ) {}
 
   ngOnInit(): void {
     const leagueId = this.route.snapshot.paramMap.get('id');
-
-    this.league = LEAGUES.find(l => l.id === leagueId);
+    this.league = LEAGUES.find(league => league.id === leagueId);
 
     if (!this.league) {
       this.loading = false;
       return;
     }
 
-    // this.footballService.getTeams(this.league.name).subscribe({
-    //   next: (teams) => {
-    //     this.teams = teams;
-    //     this.loading = false;
-    //   },
-    //   error: (err) => {
-    //     console.error('Error loading teams', err);
-    //     this.loading = false;
-    //   }
-    // });
-
-    this.footballService.getTeams(this.league.name).subscribe({
-      // next: (teams) => {
-      //   console.log('TEAMS RESPONSE:', teams);
-      //   this.teams = teams;
-      //   this.loading = false;
-      // },
-
+    this.footballService.getTeamsByLeague(this.league.name).subscribe({
       next: (teams) => {
-        console.log('Teams loaded:', teams);
         this.teams = teams;
         this.loading = false;
       },
-      error: (err) => {
-        console.error('Error loading teams', err);
+      error: (error) => {
+        console.error('Error loading teams', error);
         this.loading = false;
       }
-      
     });
+  }
 
+  goHome(): void {
+    this.router.navigate(['/home']);
+  }
 
+  goBack(): void {
+    this.location.back();
   }
 }

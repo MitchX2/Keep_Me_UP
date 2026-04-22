@@ -7,4 +7,15 @@ export interface Match {
   strAwayTeam?: string;
   intHomeScore?: string;
   intAwayScore?: string;
+  idHomeTeam?: string;
+  idAwayTeam?: string;
+  strLeague?: string;
+  strVenue?: string;
+  strStatus?: string;
+
+  strHomeTeamBadge?: string;
+  strAwayTeamBadge?: string;
+  strThumb?: string;
+  strPoster?: string;
+  strFanart?: string;
 }

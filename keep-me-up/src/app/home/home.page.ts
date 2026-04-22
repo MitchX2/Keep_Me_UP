@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { forkJoin, firstValueFrom } from 'rxjs';
 import { IonicModule } from '@ionic/angular';
-import { RouterModule } from '@angular/router';
 
 import { League } from '../models/league.model';
 import { Standing } from '../models/standing.model';
@@ -28,7 +29,8 @@ export class HomePage implements OnInit {
 
   constructor(
     private footballService: FootballService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -36,19 +38,20 @@ export class HomePage implements OnInit {
     await this.loadLeagueData();
   }
 
-  async loadInitialLeague(): Promise<void> {
+  private async loadInitialLeague(): Promise<void> {
     const storedLeagueId = await this.storageService.get<string>(STORAGE_KEYS.favouriteLeague);
 
     if (storedLeagueId) {
-      this.selectedLeague = this.leagues.find(l => l.id === storedLeagueId) ?? this.leagues[0];
+      this.selectedLeague = this.leagues.find(league => league.id === storedLeagueId) ?? this.leagues[0];
     } else {
       this.selectedLeague = this.leagues[0];
     }
   }
 
-  async onLeagueChange(event: any): Promise<void> {
-    const leagueId = event.detail.value;
-    this.selectedLeague = this.leagues.find(l => l.id === leagueId) ?? this.leagues[0];
+  async onLeagueChange(event: CustomEvent): Promise<void> {
+    const leagueId = event.detail.value as string;
+
+    this.selectedLeague = this.leagues.find(league => league.id === leagueId) ?? this.leagues[0];
     this.selectedTeamId = null;
 
     await this.storageService.set(STORAGE_KEYS.favouriteLeague, this.selectedLeague.id);
@@ -56,34 +59,47 @@ export class HomePage implements OnInit {
   }
 
   async loadLeagueData(): Promise<void> {
-    if (!this.selectedLeague) return;
+    if (!this.selectedLeague) {
+      return;
+    }
 
     this.loading = true;
+    this.standings = [];
+    this.matches = [];
 
-    this.footballService.getStandings(this.selectedLeague.id).subscribe({
-      next: (standings) => {
-        this.standings = standings;
-      },
-      error: (err) => {
-        console.error('Error loading standings', err);
-        this.standings = [];
-      }
-    });
+    try {
+      const result = await firstValueFrom(
+        forkJoin({
+          standings: this.footballService.getStandings(this.selectedLeague.id),
+          matches: this.footballService.getNextLeagueMatches(this.selectedLeague.id)
+        })
+      );
 
-    this.footballService.getNextLeagueMatches(this.selectedLeague.id).subscribe({
-      next: (matches: Match[]) => {
-        this.matches = matches;
-        this.loading = false;
-      },
-      error: (err: any) => {
-        console.error('Error loading matches', err);
-        this.matches = [];
-        this.loading = false;
-      }
-    });
+      this.standings = result.standings;
+      this.matches = result.matches;
+    } catch (error) {
+      console.error('Error loading home page data', error);
+      this.standings = [];
+      this.matches = [];
+    } finally {
+      this.loading = false;
+    }
   }
 
   selectTeam(teamId: string): void {
     this.selectedTeamId = teamId;
+  }
+
+  getTeamBadge(teamId?: string): string | null {
+    if (!teamId) {
+      return null;
+    }
+
+    const team = this.standings.find(standingTeam => standingTeam.idTeam === teamId);
+    return team?.strBadge ?? null;
+  }
+
+  goHome(): void {
+    this.router.navigate(['/home']);
   }
 }

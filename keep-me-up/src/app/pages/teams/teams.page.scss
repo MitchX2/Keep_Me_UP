@@ -1,0 +1,150 @@
+.page-toolbar {
+  --background: var(--ion-color-primary);
+  --padding-start: 0;
+  --padding-end: 0;
+  --min-height: auto;
+}
+
+.page-top-bar {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr) 110px;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1rem 0.75rem;
+  background: var(--ion-color-primary);
+}
+
+.page-top-side {
+  display: flex;
+  align-items: center;
+}
+
+.left-side {
+  justify-content: flex-start;
+}
+
+.right-side {
+  justify-content: flex-end;
+}
+
+.header-button {
+  --color: white;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.banner-button {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.banner-image {
+  display: block;
+  width: 100%;
+  max-width: 1080px;
+  height: 86px;
+  object-fit: contain;
+  border-radius: 18px;
+}
+
+.teams-content {
+  --background: var(--ion-color-light);
+}
+
+.teams-page {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.teams-card {
+  border-radius: 20px;
+}
+
+ion-card-title {
+  font-size: 1.7rem;
+  font-weight: 600;
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.empty-state {
+  padding: 1.5rem 0;
+  font-size: 1.05rem;
+  opacity: 0.85;
+}
+
+.teams-list {
+  background: transparent;
+}
+
+.team-item {
+  --background: rgba(255, 255, 255, 0.05);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --padding-top: 0.8rem;
+  --padding-bottom: 0.8rem;
+  --inner-padding-end: 0.75rem;
+  border-radius: 14px;
+  margin-bottom: 0.75rem;
+}
+
+.team-avatar {
+  width: 46px;
+  height: 46px;
+}
+
+ion-label h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+ion-label p {
+  font-size: 0.98rem;
+  opacity: 0.85;
+}
+
+@media (max-width: 768px) {
+  .page-top-bar {
+    grid-template-columns: 70px minmax(0, 1fr) 88px;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .banner-image {
+    height: 60px;
+    border-radius: 14px;
+  }
+
+  .header-button {
+    font-size: 0.9rem;
+  }
+
+  ion-card-title {
+    font-size: 1.45rem;
+  }
+
+  .team-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  ion-label h2 {
+    font-size: 1.05rem;
+  }
+
+  ion-label p {
+    font-size: 0.92rem;
+  }
+}

@@ -1,19 +1,13 @@
 import { Component } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
-import { Storage } from '@ionic/storage-angular';
+import { StorageService } from './services/storage.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
+  standalone: true,
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent {
-
-  constructor(private storage: Storage) {
-    
-  }
-
-  async ionViewWillEnter() {
-    await this.storage.create();
-  } 
+  constructor(storageService: StorageService) {}
 }

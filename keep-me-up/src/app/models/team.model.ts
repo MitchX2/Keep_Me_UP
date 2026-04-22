@@ -1,7 +1,8 @@
 export interface Team {
   idTeam: string;
   strTeam: string;
-  strTeamBadge?: string;
+  strBadge?: string;
+  strEquipment?: string;
   strStadium?: string;
   strStadiumLocation?: string;
   intFormedYear?: string;
@@ -10,4 +11,9 @@ export interface Team {
   strFacebook?: string;
   strTwitter?: string;
   strInstagram?: string;
+  strLeague?: string;
+  strStadiumThumb?: string;
+  strYoutube?: string;
+  strColour1?: string;
+  strColour2?: string;
 }

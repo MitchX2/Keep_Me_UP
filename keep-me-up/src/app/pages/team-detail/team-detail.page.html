@@ -1,49 +1,164 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>{{ team?.strTeam || 'Team Details' }}</ion-title>
+  <ion-toolbar class="page-toolbar">
+    <div class="page-top-bar">
+      <div class="page-top-side left-side">
+        <ion-button
+          fill="clear"
+          class="header-button"
+          (click)="goBack()"
+        >
+          Back
+        </ion-button>
+      </div>
+
+      <button class="banner-button" type="button" (click)="goHome()">
+        <img
+          src="assets/banner/keep-me-up_banner.png"
+          alt="Keep Me Up banner"
+          class="banner-image"
+        />
+      </button>
+
+      <div class="page-top-side right-side">
+        <ion-button
+          fill="clear"
+          class="header-button"
+          [routerLink]="['/settings']"
+        >
+          Settings
+        </ion-button>
+      </div>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-spinner *ngIf="loading"></ion-spinner>
+<ion-content
+  class="team-detail-content"
+  [style.--background]="getPageBackground()"
+>
+  <div class="team-detail-page ion-padding">
+    <div class="loading-wrap" *ngIf="loading">
+      <ion-spinner></ion-spinner>
+    </div>
 
-  <ng-container *ngIf="!loading && team as selectedTeam">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>{{ selectedTeam.strTeam }}</ion-card-title>
-      </ion-card-header>
+    <div *ngIf="!loading && team as selectedTeam">
+      <ion-card class="team-profile-card" [ngStyle]="getTeamAccentStyle()">
+        <ion-card-content>
+          <div class="team-hero">
+            <div class="team-identity">
+              <img
+                *ngIf="selectedTeam.strBadge"
+                [src]="selectedTeam.strBadge"
+                [alt]="selectedTeam.strTeam"
+                class="team-badge-large"
+              />
 
-      <ion-card-content>
-        <img
-          *ngIf="selectedTeam.strTeamBadge"
-          [src]="selectedTeam.strTeamBadge"
-          [alt]="selectedTeam.strTeam"
-          style="width: 100px;"
-        />
+              <div class="team-name-block">
+                <h1 class="team-name">{{ selectedTeam.strTeam }}</h1>
+                <p class="team-subtitle" *ngIf="selectedTeam.strLeague">
+                  {{ selectedTeam.strLeague }}
+                </p>
+              </div>
+            </div>
 
-        <p><strong>Stadium:</strong> {{ selectedTeam.strStadium }}</p>
-        <p><strong>Location:</strong> {{ selectedTeam.strStadiumLocation }}</p>
-        <p><strong>Founded:</strong> {{ selectedTeam.intFormedYear }}</p>
+            <div class="team-jersey-wrap" *ngIf="selectedTeam.strEquipment">
+              <img
+                [src]="selectedTeam.strEquipment"
+                [alt]="selectedTeam.strTeam + ' jersey'"
+                class="team-jersey"
+              />
+            </div>
+          </div>
 
-        <p *ngIf="selectedTeam.strWebsite">
-          <a [href]="'https://' + selectedTeam.strWebsite" target="_blank">Website</a>
-        </p>
-      </ion-card-content>
-    </ion-card>
+          <div class="team-info-grid">
+            <div class="info-pill" [ngStyle]="getInfoPillStyle()" *ngIf="selectedTeam.strLeague">
+              <span class="info-label">League</span>
+              <span class="info-value">{{ selectedTeam.strLeague }}</span>
+            </div>
 
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Recent Matches</ion-card-title>
-      </ion-card-header>
+            <div class="info-pill" [ngStyle]="getInfoPillStyle()" *ngIf="selectedTeam.strStadium">
+              <span class="info-label">Stadium</span>
+              <span class="info-value">{{ selectedTeam.strStadium }}</span>
+            </div>
 
-      <ion-list>
-        <ion-item *ngFor="let match of matches">
-          <ion-label>
-            <h2>{{ match.strHomeTeam }} vs {{ match.strAwayTeam }}</h2>
-            <p>{{ match.intHomeScore }} - {{ match.intAwayScore }}</p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-    </ion-card>
-  </ng-container>
+            <div class="info-pill" [ngStyle]="getInfoPillStyle()" *ngIf="selectedTeam.strStadiumLocation">
+              <span class="info-label">Location</span>
+              <span class="info-value">{{ selectedTeam.strStadiumLocation }}</span>
+            </div>
+
+            <div class="info-pill" [ngStyle]="getInfoPillStyle()" *ngIf="selectedTeam.intFormedYear">
+              <span class="info-label">Founded</span>
+              <span class="info-value">{{ selectedTeam.intFormedYear }}</span>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <ion-button expand="block" color="secondary" (click)="toggleFavourite()">
+              {{ isFavourite ? 'Remove Favourite' : 'Set as Favourite' }}
+            </ion-button>
+
+            <ion-button
+              expand="block"
+              fill="outline"
+              (click)="openMapsSearch()"
+              *ngIf="selectedTeam.strStadium || selectedTeam.strStadiumLocation"
+            >
+              Stadium Map
+            </ion-button>
+
+            <ion-button
+              expand="block"
+              fill="outline"
+              (click)="openWebsite()"
+              *ngIf="selectedTeam.strWebsite"
+            >
+              Visit Website
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="team-extra-card" *ngIf="selectedTeam.strDescriptionEN">
+        <ion-card-header>
+          <ion-card-title>About</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <p class="team-description">
+            {{ selectedTeam.strDescriptionEN }}
+          </p>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="team-extra-card">
+        <ion-card-header>
+          <ion-card-title>Recent Matches</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div *ngIf="matches.length; else noMatches" class="recent-matches-list">
+            <div class="recent-match-row" *ngFor="let match of matches | slice:0:5">
+              <div class="match-row-main">
+                <span class="match-fixture">{{ match.strHomeTeam }} vs {{ match.strAwayTeam }}</span>
+                <span class="match-score">{{ getMatchScore(match) }}</span>
+              </div>
+
+              <div class="match-row-meta">
+                <span>{{ match.dateEvent || 'Date TBC' }}</span>
+                <span *ngIf="match.strVenue">{{ match.strVenue }}</span>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #noMatches>
+            <p class="empty-state">No recent match data available.</p>
+          </ng-template>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div *ngIf="!loading && !team" class="empty-state-page">
+      Team details could not be loaded.
+    </div>
+  </div>
 </ion-content>

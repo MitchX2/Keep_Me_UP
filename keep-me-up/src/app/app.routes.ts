@@ -27,5 +27,9 @@ export const routes: Routes = [
     path: 'team/:id',
     loadComponent: () =>
       import('./pages/team-detail/team-detail.page').then((m) => m.TeamDetailPage),
+  },
+  {
+    path: 'matchday',
+    loadComponent: () => import('./pages/matchday/matchday.page').then( m => m.MatchdayPage)
   }
 ];

@@ -1,22 +1,71 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>{{ league?.name || 'Teams' }}</ion-title>
+  <ion-toolbar class="page-toolbar">
+    <div class="page-top-bar">
+      <div class="page-top-side left-side">
+        <ion-button
+          fill="clear"
+          class="header-button"
+          (click)="goBack()"
+        >
+          Back
+        </ion-button>
+      </div>
+
+      <button class="banner-button" type="button" (click)="goHome()">
+        <img
+          src="assets/banner/keep-me-up_banner.png"
+          alt="Keep Me Up banner"
+          class="banner-image"
+        />
+      </button>
+
+      <div class="page-top-side right-side">
+        <ion-button
+          fill="clear"
+          class="header-button"
+          [routerLink]="['/settings']"
+        >
+          Settings
+        </ion-button>
+      </div>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-spinner *ngIf="loading"></ion-spinner>
+<ion-content class="teams-content">
+  <div class="teams-page ion-padding">
+    <ion-card class="teams-card">
+      <ion-card-header>
+        <ion-card-title>{{ league?.name || 'Teams' }}</ion-card-title>
+      </ion-card-header>
 
-  <ion-list *ngIf="!loading">
-    <ion-item *ngFor="let team of teams" [routerLink]="['/team', team.idTeam]">
-      <ion-avatar slot="start" *ngIf="team.strTeamBadge">
-        <img [src]="team.strTeamBadge" [alt]="team.strTeam" />
-      </ion-avatar>
+      <ion-card-content>
+        <div class="loading-wrap" *ngIf="loading">
+          <ion-spinner></ion-spinner>
+        </div>
 
-      <ion-label>
-        <h2>{{ team.strTeam }}</h2>
-        <p>{{ team.strStadium }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+        <div *ngIf="!loading && !teams.length" class="empty-state">
+          No teams found for this league.
+        </div>
+
+        <ion-list *ngIf="!loading && teams.length" class="teams-list">
+          <ion-item
+            *ngFor="let team of teams"
+            class="team-item"
+            [routerLink]="['/team', team.idTeam]"
+            detail="true"
+          >
+            <ion-avatar slot="start" *ngIf="team.strBadge" class="team-avatar">
+              <img [src]="team.strBadge" [alt]="team.strTeam" />
+            </ion-avatar>
+
+            <ion-label>
+              <h2>{{ team.strTeam }}</h2>
+              <p>{{ team.strStadium || 'Stadium not available' }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

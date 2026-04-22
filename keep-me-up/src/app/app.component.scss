@@ -1,0 +1,66 @@
+.app-shell {
+  min-height: 100vh;
+  background: var(--ion-color-light);
+}
+
+.top-bar {
+  display: grid;
+  grid-template-columns: 100px 1fr 100px;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--ion-color-primary);
+}
+
+.top-bar-side {
+  display: flex;
+  align-items: center;
+}
+
+.left-side {
+  justify-content: flex-start;
+}
+
+.right-side {
+  justify-content: flex-end;
+}
+
+.nav-button {
+  --color: white;
+  font-weight: 600;
+}
+
+.banner-button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.banner-image {
+  display: block;
+  width: 100%;
+  max-height: 110px;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+@media (max-width: 576px) {
+  .top-bar {
+    grid-template-columns: 80px 1fr 80px;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .banner-image {
+    max-height: 84px;
+    border-radius: 14px;
+  }
+
+  .nav-button {
+    font-size: 0.9rem;
+  }
+}
