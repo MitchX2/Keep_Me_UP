@@ -1,0 +1,284 @@
+.page-toolbar {
+  --background: var(--ion-color-primary);
+  --padding-start: 0;
+  --padding-end: 0;
+  --min-height: auto;
+}
+
+.page-top-bar {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr) 110px;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 1rem 0.75rem;
+  background: var(--ion-color-primary);
+}
+
+.page-top-side {
+  display: flex;
+  align-items: center;
+}
+
+.left-side {
+  justify-content: flex-start;
+}
+
+.right-side {
+  justify-content: flex-end;
+}
+
+.header-button {
+  --color: white;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.banner-button {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.banner-image {
+  display: block;
+  width: 100%;
+  max-width: 1080px;
+  height: 86px;
+  object-fit: contain;
+  border-radius: 18px;
+}
+
+.league-table-content {
+  --background: var(--ion-color-light);
+}
+
+.league-table-page {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.table-card {
+  border-radius: 20px;
+}
+
+ion-card-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.table-wrap {
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.table-header-row {
+  display: grid;
+  grid-template-columns:
+    52px
+    minmax(220px, 1.8fr)
+    52px
+    52px
+    52px
+    52px
+    60px
+    60px
+    60px
+    70px
+    minmax(150px, 1fr);
+  align-items: center;
+  gap: 0.25rem;
+  padding: 1rem 1rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.table-scroll {
+  max-height: 900px;
+  overflow-y: auto;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns:
+    52px
+    minmax(220px, 1.8fr)
+    52px
+    52px
+    52px
+    52px
+    60px
+    60px
+    60px
+    70px
+    minmax(150px, 1fr);
+
+  align-items: center;
+  gap: 0.25rem;
+  width: 100%;
+  padding: 0.95rem 1rem;
+
+  border: 1px solid rgba(20, 20, 20, 0.08);  
+  border-radius: 10px;                          
+  margin-bottom: 0.35rem;                       
+
+  background:    lavender;
+  color: inherit;
+  text-align: center;
+  cursor: pointer;
+}
+
+.table-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.col-pos,
+.col-stat,
+.col-points {
+  text-align: center;
+  font-weight: 600;
+}
+
+.col-pos {
+  font-size: 1.05rem;
+}
+
+.col-team {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.team-badge {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.team-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.col-points {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.col-form {
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.form-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: white;
+}
+
+.form-win {
+  background: #2e7d32;
+}
+
+.form-draw {
+  background: #6c757d;
+}
+
+.form-loss {
+  background: #c62828;
+}
+
+/* Row category colours */
+.row-first {
+  background: rgba(212, 175, 55, 0.16);
+  box-shadow: inset 4px 0 0 #d4af37;
+}
+
+.row-champions {
+  background: rgba(25, 118, 210, 0.14);
+  box-shadow: inset 4px 0 0 #1976d2;
+}
+
+.row-europa {
+  background: rgba(245, 124, 0, 0.14);
+  box-shadow: inset 4px 0 0 #f57c00;
+}
+
+.row-relegation {
+  background: rgba(211, 47, 47, 0.14);
+  box-shadow: inset 4px 0 0 #d32f2f;
+}
+
+@media (max-width: 1100px) {
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  .table-header-row,
+  .table-row {
+    min-width: 1120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-top-bar {
+    grid-template-columns: 70px minmax(0, 1fr) 88px;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .banner-image {
+    height: 60px;
+    border-radius: 14px;
+  }
+
+  .header-button {
+    font-size: 0.9rem;
+  }
+
+  ion-card-title {
+    font-size: 1.45rem;
+  }
+
+  .team-name {
+    font-size: 0.95rem;
+  }
+
+  .team-badge {
+    width: 24px;
+    height: 24px;
+  }
+
+  .form-pill {
+    width: 24px;
+    height: 24px;
+    font-size: 0.75rem;
+  }
+}

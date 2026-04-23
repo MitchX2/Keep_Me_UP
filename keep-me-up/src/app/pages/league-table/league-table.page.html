@@ -1,24 +1,106 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>{{ league?.name || 'League Table' }}</ion-title>
+  <ion-toolbar class="page-toolbar">
+    <div class="page-top-bar">
+      <div class="page-top-side left-side">
+        <ion-button
+          fill="clear"
+          class="header-button"
+          (click)="goBack()"
+        >
+          Back
+        </ion-button>
+      </div>
+
+      <button class="banner-button" type="button" (click)="goHome()">
+        <img
+          src="assets/banner/keep-me-up_banner.png"
+          alt="Keep Me Up banner"
+          class="banner-image"
+        />
+      </button>
+
+      <div class="page-top-side right-side">
+        <ion-button
+          fill="clear"
+          class="header-button"
+          [routerLink]="['/settings']"
+        >
+          Settings
+        </ion-button>
+      </div>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-spinner *ngIf="loading"></ion-spinner>
+<ion-content class="league-table-content">
+  <div class="league-table-page ion-padding">
+    <ion-card class="table-card">
+      <ion-card-header>
+        <ion-card-title>{{ league?.name || 'League Table' }}</ion-card-title>
+      </ion-card-header>
 
-  <ion-list *ngIf="!loading">
-    <ion-item *ngFor="let team of standings">
-      <ion-label>
-        <h2>{{ team.intRank }}. {{ team.strTeam }}</h2>
-        <p>
-          P: {{ team.intPlayed }} |
-          W: {{ team.intWin }} |
-          D: {{ team.intDraw }} |
-          L: {{ team.intLoss }} |
-          Pts: {{ team.intPoints }}
-        </p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+      <ion-card-content>
+        <div class="loading-wrap" *ngIf="loading">
+          <ion-spinner></ion-spinner>
+        </div>
+
+        <div *ngIf="!loading" class="table-wrap">
+          <div class="table-header-row">
+            <span class="col-pos">Pos</span>
+            <span class="col-team">Team</span>
+            <span class="col-stat">P</span>
+            <span class="col-stat">W</span>
+            <span class="col-stat">L</span>
+            <span class="col-stat">D</span>
+            <span class="col-stat">GF</span>
+            <span class="col-stat">GA</span>
+            <span class="col-stat">GD</span>
+            <span class="col-points">Pts</span>
+            <span class="col-form">Form</span>
+          </div>
+
+          <div class="table-scroll">
+            <button
+              class="table-row"
+              *ngFor="let team of standings"
+              [ngClass]="getRowClass(team)"
+              type="button"
+              (click)="openTeam(team.idTeam)"
+            >
+              <span class="col-pos">{{ team.intRank }}</span>
+
+              <span class="col-team">
+                <img
+                  *ngIf="team.strBadge"
+                  [src]="team.strBadge"
+                  [alt]="team.strTeam + ' badge'"
+                  class="team-badge"
+                />
+                <span class="team-name">{{ team.strTeam }}</span>
+              </span>
+
+              <span class="col-stat">{{ team.intPlayed }}</span>
+              <span class="col-stat">{{ team.intWin }}</span>
+              <span class="col-stat">{{ team.intLoss }}</span>
+              <span class="col-stat">{{ team.intDraw }}</span>
+              <span class="col-stat">{{ team.intGoalsFor }}</span>
+              <span class="col-stat">{{ team.intGoalsAgainst }}</span>
+              <span class="col-stat">{{ team.intGoalDifference }}</span>
+              <span class="col-points">{{ team.intPoints }}</span>
+
+              <span class="col-form">
+                <span
+                  *ngFor="let letter of getFormCharacters(team.strForm)"
+                  class="form-pill"
+                  [ngClass]="getFormClass(letter)"
+                >
+                  {{ letter }}
+                </span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
