@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { forkJoin, firstValueFrom } from 'rxjs';
 import { IonicModule } from '@ionic/angular';
@@ -8,13 +8,14 @@ import { FootballService } from '../../services/football.service';
 import { Team } from '../../models/team.model';
 import { Match } from '../../models/match.model';
 import { Standing } from '../../models/standing.model';
+import { PageHeaderComponent } from '../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-matchday',
   templateUrl: './matchday.page.html',
   styleUrls: ['./matchday.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule]
+  imports: [CommonModule, IonicModule, RouterModule, PageHeaderComponent]
 })
 export class MatchdayPage {
   loading = true;
@@ -38,7 +39,6 @@ export class MatchdayPage {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private location: Location,
     private footballService: FootballService
   ) {}
 
@@ -94,14 +94,6 @@ export class MatchdayPage {
     } finally {
       this.loading = false;
     }
-  }
-
-  goHome(): void {
-    this.router.navigate(['/home']);
-  }
-
-  goBack(): void {
-    this.location.back();
   }
 
   getTeamColumnStyle(team: Team | null): Record<string, string> {

@@ -11,13 +11,14 @@ import { LEAGUES } from '../data/leagues';
 import { FootballService } from '../services/football.service';
 import { StorageService } from '../services/storage.service';
 import { STORAGE_KEYS } from '../shared/constants/storage-keys';
+import { PageHeaderComponent } from '../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule]
+  imports: [CommonModule, IonicModule, RouterModule, PageHeaderComponent]
 })
 export class HomePage implements OnInit {
   leagues: League[] = LEAGUES;
@@ -134,10 +135,6 @@ export class HomePage implements OnInit {
     }
 
     return '';
-  }
-
-  goHome(): void {
-    this.router.navigate(['/home']);
   }
 
   openMatchday(match: Match): void {

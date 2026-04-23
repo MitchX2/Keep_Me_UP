@@ -1,28 +1,4 @@
-<ion-header>
-  <ion-toolbar class="page-toolbar">
-    <div class="page-top-bar">
-      <div class="page-top-side left-side"></div>
-
-      <button class="banner-button" type="button" (click)="goHome()">
-        <img
-          src="assets/banner/keep-me-up_banner.png"
-          alt="Keep Me Up banner"
-          class="banner-image"
-        />
-      </button>
-
-      <div class="page-top-side right-side">
-        <ion-button
-          fill="clear"
-          class="header-button"
-          [routerLink]="['/settings']"
-        >
-          Settings
-        </ion-button>
-      </div>
-    </div>
-  </ion-toolbar>
-</ion-header>
+<app-page-header [showBackButton]="false"></app-page-header>
 
 <ion-content class="home-content">
   <div class="home-page ion-padding">

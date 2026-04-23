@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
@@ -9,13 +9,14 @@ import { Standing } from '../../models/standing.model';
 import { LEAGUES } from '../../data/leagues';
 import { League } from '../../models/league.model';
 import { STORAGE_KEYS } from '../../shared/constants/storage-keys';
+import { PageHeaderComponent } from '../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-league-table',
   templateUrl: './league-table.page.html',
   styleUrls: ['./league-table.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule]
+  imports: [CommonModule, IonicModule, RouterModule, PageHeaderComponent]
 })
 export class LeagueTablePage implements OnInit {
   standings: Standing[] = [];
@@ -26,7 +27,6 @@ export class LeagueTablePage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private location: Location,
     private footballService: FootballService,
     private storageService: StorageService
   ) {}
@@ -55,14 +55,6 @@ export class LeagueTablePage implements OnInit {
 
   async ionViewWillEnter(): Promise<void> {
     this.favouriteTeamId = await this.storageService.get<string>(STORAGE_KEYS.favouriteTeam);
-  }
-
-  goHome(): void {
-    this.router.navigate(['/home']);
-  }
-
-  goBack(): void {
-    this.location.back();
   }
 
   openTeam(teamId: string): void {

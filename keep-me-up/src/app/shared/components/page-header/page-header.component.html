@@ -1,0 +1,42 @@
+<ion-header [ngStyle]="getHeaderStyle()">
+  <ion-toolbar class="page-toolbar">
+    <div class="page-top-bar">
+      <div class="page-top-side left-side">
+        <ion-button
+          *ngIf="showBackButton"
+          fill="clear"
+          class="header-button"
+          (click)="goBack()"
+          aria-label="Go back"
+        >
+          <ion-icon name="arrow-back-outline"></ion-icon>
+        </ion-button>
+      </div>
+
+      <ion-button
+        fill="clear"
+        class="banner-button"
+        (click)="goHome()"
+        aria-label="Go to home page"
+      >
+        <img
+          src="assets/banner/keep-me-up_banner.png"
+          alt="Keep Me Up banner"
+          class="banner-image"
+        />
+      </ion-button>
+
+      <div class="page-top-side right-side">
+        <ion-button
+          *ngIf="showSettingsButton"
+          fill="clear"
+          class="header-button"
+          [routerLink]="['/settings']"
+          aria-label="Open settings"
+        >
+          <ion-icon name="settings-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>

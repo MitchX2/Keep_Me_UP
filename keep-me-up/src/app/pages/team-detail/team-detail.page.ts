@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { CommonModule, Location } from '@angular/common';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { forkJoin, firstValueFrom } from 'rxjs';
 import { IonicModule } from '@ionic/angular';
+import { Browser } from '@capacitor/browser';
 
 import { FootballService } from '../../services/football.service';
 import { StorageService } from '../../services/storage.service';
@@ -10,13 +11,14 @@ import { ThemeService } from '../../services/theme.service';
 import { Team } from '../../models/team.model';
 import { Match } from '../../models/match.model';
 import { STORAGE_KEYS } from '../../shared/constants/storage-keys';
+import { PageHeaderComponent } from '../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-team-detail',
   templateUrl: './team-detail.page.html',
   styleUrls: ['./team-detail.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule]
+  imports: [CommonModule, IonicModule, RouterModule, PageHeaderComponent]
 })
 export class TeamDetailPage {
   team: Team | null = null;
@@ -26,8 +28,6 @@ export class TeamDetailPage {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
-    private location: Location,
     private footballService: FootballService,
     private storageService: StorageService,
     private themeService: ThemeService
@@ -78,9 +78,7 @@ export class TeamDetailPage {
   }
 
   async toggleFavourite(): Promise<void> {
-    if (!this.team) {
-      return;
-    }
+    if (!this.team) return;
 
     if (this.isFavourite) {
       await this.storageService.remove(STORAGE_KEYS.favouriteTeam);
@@ -93,40 +91,28 @@ export class TeamDetailPage {
     await this.themeService.refreshTeamTheme();
   }
 
-  goHome(): void {
-    this.router.navigate(['/home']);
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
-  openWebsite(): void {
-    if (!this.team?.strWebsite) {
-      return;
-    }
+  async openWebsite(): Promise<void> {
+    if (!this.team?.strWebsite) return;
 
     const website = this.team.strWebsite.startsWith('http')
       ? this.team.strWebsite
       : `https://${this.team.strWebsite}`;
 
-    window.open(website, '_blank');
+    await Browser.open({ url: website });
   }
 
-  openMapsSearch(): void {
-    if (!this.team) {
-      return;
-    }
+  async openMapsSearch(): Promise<void> {
+    if (!this.team) return;
 
     const query = encodeURIComponent(
       `${this.team.strStadium || ''} ${this.team.strStadiumLocation || ''}`.trim()
     );
 
-    if (!query) {
-      return;
-    }
+    if (!query) return;
 
-    window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
+    await Browser.open({
+      url: `https://www.google.com/maps/search/?api=1&query=${query}`
+    });
   }
 
   getMatchScore(match: Match): string {
@@ -136,9 +122,7 @@ export class TeamDetailPage {
   }
 
   getTeamAccentStyle(): Record<string, string> {
-    if (!this.team?.strColour1) {
-      return {};
-    }
+    if (!this.team?.strColour1) return {};
 
     return {
       'border-top': `4px solid ${this.team.strColour1}`,
@@ -147,12 +131,10 @@ export class TeamDetailPage {
   }
 
   getInfoPillStyle(): Record<string, string> {
-    if (!this.team?.strColour1) {
-      return {};
-    }
+    if (!this.team?.strColour1) return {};
 
     return {
-      'background': this.hexToRgba(this.team.strColour1, 0.14)
+      background: this.hexToRgba(this.team.strColour1, 0.14)
     };
   }
 
@@ -181,16 +163,4 @@ export class TeamDetailPage {
 
     return `linear-gradient(180deg, ${strong} 0%, ${medium} 28%, ${soft} 60%, var(--ion-color-light) 85%)`;
   }
-
-  getHeaderStyle(): Record<string, string> {
-    if (!this.team?.strColour1) {
-      return {};
-    }
-
-    return {
-      'background': this.team.strColour1
-    };
-  }
-
-
 }

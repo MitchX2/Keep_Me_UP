@@ -1,36 +1,4 @@
-<ion-header>
-  <ion-toolbar class="page-toolbar" [ngStyle]="getHeaderStyle()">
-    <div class="page-top-bar" [ngStyle]="getHeaderStyle()">
-      <div class="page-top-side left-side">
-        <ion-button
-          fill="clear"
-          class="header-button"
-          (click)="goBack()"
-        >
-          Back
-        </ion-button>
-      </div>
-
-      <button class="banner-button" type="button" (click)="goHome()">
-        <img
-          src="assets/banner/keep-me-up_banner.png"
-          alt="Keep Me Up banner"
-          class="banner-image"
-        />
-      </button>
-
-      <div class="page-top-side right-side">
-        <ion-button
-          fill="clear"
-          class="header-button"
-          [routerLink]="['/settings']"
-        >
-          Settings
-        </ion-button>
-      </div>
-    </div>
-  </ion-toolbar>
-</ion-header>
+<app-page-header [headerBackground]="team?.strColour1 || ''"></app-page-header>
 
 <ion-content
   class="team-detail-content"
