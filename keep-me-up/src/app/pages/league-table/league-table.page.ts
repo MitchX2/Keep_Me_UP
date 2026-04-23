@@ -4,9 +4,11 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { FootballService } from '../../services/football.service';
+import { StorageService } from '../../services/storage.service';
 import { Standing } from '../../models/standing.model';
 import { LEAGUES } from '../../data/leagues';
 import { League } from '../../models/league.model';
+import { STORAGE_KEYS } from '../../shared/constants/storage-keys';
 
 @Component({
   selector: 'app-league-table',
@@ -18,18 +20,21 @@ import { League } from '../../models/league.model';
 export class LeagueTablePage implements OnInit {
   standings: Standing[] = [];
   league: League | undefined;
+  favouriteTeamId: string | null = null;
   loading = true;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private footballService: FootballService
+    private footballService: FootballService,
+    private storageService: StorageService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     const leagueId = this.route.snapshot.paramMap.get('id');
     this.league = LEAGUES.find(league => league.id === leagueId);
+    this.favouriteTeamId = await this.storageService.get<string>(STORAGE_KEYS.favouriteTeam);
 
     if (!leagueId) {
       this.loading = false;
@@ -48,6 +53,10 @@ export class LeagueTablePage implements OnInit {
     });
   }
 
+  async ionViewWillEnter(): Promise<void> {
+    this.favouriteTeamId = await this.storageService.get<string>(STORAGE_KEYS.favouriteTeam);
+  }
+
   goHome(): void {
     this.router.navigate(['/home']);
   }
@@ -58,6 +67,10 @@ export class LeagueTablePage implements OnInit {
 
   openTeam(teamId: string): void {
     this.router.navigate(['/team', teamId]);
+  }
+
+  isFavouriteTeam(teamId: string): boolean {
+    return this.favouriteTeamId === teamId;
   }
 
   getRowClass(team: Standing): string {

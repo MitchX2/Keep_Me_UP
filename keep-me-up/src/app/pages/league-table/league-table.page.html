@@ -63,7 +63,7 @@
             <button
               class="table-row"
               *ngFor="let team of standings"
-              [ngClass]="getRowClass(team)"
+              [ngClass]="[getRowClass(team), isFavouriteTeam(team.idTeam) ? 'favourite-team' : '']"
               type="button"
               (click)="openTeam(team.idTeam)"
             >
@@ -76,7 +76,11 @@
                   [alt]="team.strTeam + ' badge'"
                   class="team-badge"
                 />
-                <span class="team-name">{{ team.strTeam }}</span>
+
+                <span class="team-name-wrap">
+                  <span class="team-name">{{ team.strTeam }}</span>
+                  <span class="favourite-star" *ngIf="isFavouriteTeam(team.idTeam)">★</span>
+                </span>
               </span>
 
               <span class="col-stat">{{ team.intPlayed }}</span>

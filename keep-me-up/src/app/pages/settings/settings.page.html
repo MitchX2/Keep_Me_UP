@@ -1,0 +1,105 @@
+<ion-header>
+  <ion-toolbar class="page-toolbar">
+    <div class="page-top-bar">
+      <div class="page-top-side left-side">
+        <ion-button
+          fill="clear"
+          class="header-button"
+          (click)="goBack()"
+        >
+          Back
+        </ion-button>
+      </div>
+
+      <button class="banner-button" type="button" (click)="goHome()">
+        <img
+          src="assets/banner/keep-me-up_banner.png"
+          alt="Keep Me Up banner"
+          class="banner-image"
+        />
+      </button>
+
+      <div class="page-top-side right-side"></div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="settings-content">
+  <div class="settings-page ion-padding">
+    <ion-card class="settings-card">
+      <ion-card-header>
+        <ion-card-title>Settings</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="settings-section">
+          <h2>Favourite Team</h2>
+
+          <ion-item>
+            <ion-label position="stacked">League</ion-label>
+            <ion-select
+              [value]="selectedLeagueId"
+              (ionChange)="onLeagueChange($event)"
+              interface="popover"
+            >
+              <ion-select-option
+                *ngFor="let league of leagues"
+                [value]="league.id"
+              >
+                {{ league.name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Team</ion-label>
+            <ion-select
+              [value]="selectedTeamId"
+              [(ngModel)]="selectedTeamId"
+              interface="popover"
+              [disabled]="loadingTeams || !teams.length"
+            >
+              <ion-select-option
+                *ngFor="let team of teams"
+                [value]="team.idTeam"
+              >
+                {{ team.strTeam }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div>
+
+        <div class="settings-section">
+          <h2>Theme</h2>
+
+          <ion-radio-group [(ngModel)]="selectedThemeMode">
+            <ion-item>
+              <ion-radio slot="start" value="team"></ion-radio>
+              <ion-label>Favourite Team Colour</ion-label>
+            </ion-item>
+
+            <ion-item>
+              <ion-radio slot="start" value="light"></ion-radio>
+              <ion-label>Force Light Theme</ion-label>
+            </ion-item>
+
+            <ion-item>
+              <ion-radio slot="start" value="dark"></ion-radio>
+              <ion-label>Force Dark Theme</ion-label>
+            </ion-item>
+          </ion-radio-group>
+        </div>
+
+        <div class="settings-actions">
+          <ion-button expand="block" (click)="saveSettings()" [disabled]="saving">
+            Save Settings
+          </ion-button>
+
+          <ion-button expand="block" fill="outline" color="medium" (click)="clearSettings()">
+            Reset Settings
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

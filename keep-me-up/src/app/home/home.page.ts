@@ -25,6 +25,7 @@ export class HomePage implements OnInit {
   standings: Standing[] = [];
   matches: Match[] = [];
   selectedTeamId: string | null = null;
+  favouriteTeamId: string | null = null;
   loading = false;
 
   constructor(
@@ -34,8 +35,17 @@ export class HomePage implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    await this.loadFavouriteTeam();
     await this.loadInitialLeague();
     await this.loadLeagueData();
+  }
+
+  async ionViewWillEnter(): Promise<void> {
+    await this.loadFavouriteTeam();
+  }
+
+  private async loadFavouriteTeam(): Promise<void> {
+    this.favouriteTeamId = await this.storageService.get<string>(STORAGE_KEYS.favouriteTeam);
   }
 
   private async loadInitialLeague(): Promise<void> {
@@ -90,6 +100,10 @@ export class HomePage implements OnInit {
     this.selectedTeamId = teamId;
   }
 
+  isFavouriteTeam(teamId: string): boolean {
+    return this.favouriteTeamId === teamId;
+  }
+
   getTeamBadge(teamId?: string): string | null {
     if (!teamId) {
       return null;
@@ -97,6 +111,29 @@ export class HomePage implements OnInit {
 
     const team = this.standings.find(standingTeam => standingTeam.idTeam === teamId);
     return team?.strBadge ?? null;
+  }
+
+  getHomeRowClass(team: Standing): string {
+    const description = (team.strDescription || '').toLowerCase();
+    const rank = Number(team.intRank);
+
+    if (rank === 1) {
+      return 'row-first';
+    }
+
+    if (description.includes('champions league')) {
+      return 'row-champions';
+    }
+
+    if (description.includes('europa league')) {
+      return 'row-europa';
+    }
+
+    if (description.includes('relegation')) {
+      return 'row-relegation';
+    }
+
+    return '';
   }
 
   goHome(): void {

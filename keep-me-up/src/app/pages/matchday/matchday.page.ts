@@ -106,22 +106,28 @@ export class MatchdayPage {
 
   getTeamColumnStyle(team: Team | null): Record<string, string> {
     if (!team?.strColour1) {
-      return {};
+      return {
+        background: 'rgba(255, 255, 255, 0.14)',
+        border: '1px solid rgba(0, 0, 0, 0.10)'
+      };
     }
 
     return {
-      background: this.hexToRgba(team.strColour1, 0.24),
-      border: `1px solid ${this.hexToRgba(team.strColour1, 0.45)}`
+      background: team.strColour1,
+      border: `1px solid ${this.hexToRgba(team.strColour1, 0.65)}`
     };
   }
 
   getSummaryCardStyle(team: Team | null): Record<string, string> {
     if (!team?.strColour1) {
-      return {};
+      return {
+        background: 'rgba(255, 255, 255, 0.28)'
+      };
     }
 
     return {
-      background: this.hexToRgba(team.strColour1, 0.32)
+      background: 'rgba(255, 255, 255, 0.28)',
+      border: `1px solid ${this.hexToRgba(team.strColour1, 0.28)}`
     };
   }
 

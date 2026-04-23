@@ -1,7 +1,7 @@
 export const STORAGE_KEYS = {
   favouriteTeam: 'favouriteTeam',
   favouriteLeague: 'favouriteLeague',
-  themeColours: 'themeColours',
+  themeMode: 'themeMode',
   dailyTable: 'dailyTable',
   dailyMatches: 'dailyMatches'
-};
+} as const;

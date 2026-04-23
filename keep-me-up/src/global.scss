@@ -35,3 +35,48 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+
+
+/* ---------------------------------------
+   Custom App Theme Modes
+--------------------------------------- */
+
+body.theme-light {
+  --ion-background-color: #f4f5f8;
+  --ion-background-color-rgb: 244, 245, 248;
+
+  --ion-text-color: #111111;
+  --ion-text-color-rgb: 17, 17, 17;
+
+  --ion-card-background: #ffffff;
+}
+
+body.theme-dark {
+  --ion-background-color: #121212;
+  --ion-background-color-rgb: 18, 18, 18;
+
+  --ion-text-color: #f5f5f5;
+  --ion-text-color-rgb: 245, 245, 245;
+
+  --ion-card-background: #1e1e1e;
+}
+
+body.theme-team {
+  --ion-background-color: #f4f5f8;
+  --ion-background-color-rgb: 244, 245, 248;
+
+  --ion-text-color: #111111;
+  --ion-text-color-rgb: 17, 17, 17;
+
+  --ion-card-background: #ffffff;
+}
+
+/* Global favourite-team colouring */
+body.theme-team ion-content,
+body.theme-team .home-content,
+body.theme-team .league-table-content,
+body.theme-team .settings-content,
+body.theme-team .matchday-content {
+  --background: var(--app-favourite-background);
+}

@@ -31,5 +31,9 @@ export const routes: Routes = [
   {
     path: 'matchday',
     loadComponent: () => import('./pages/matchday/matchday.page').then( m => m.MatchdayPage)
+  },
+  {
+    path: 'settings',
+    loadComponent: () => import('./pages/settings/settings.page').then( m => m.SettingsPage)
   }
 ];

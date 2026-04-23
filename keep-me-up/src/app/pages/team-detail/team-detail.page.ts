@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { FootballService } from '../../services/football.service';
 import { StorageService } from '../../services/storage.service';
+import { ThemeService } from '../../services/theme.service';
 import { Team } from '../../models/team.model';
 import { Match } from '../../models/match.model';
 import { STORAGE_KEYS } from '../../shared/constants/storage-keys';
@@ -28,7 +29,8 @@ export class TeamDetailPage {
     private router: Router,
     private location: Location,
     private footballService: FootballService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private themeService: ThemeService
   ) {}
 
   ionViewWillEnter(): void {
@@ -83,11 +85,12 @@ export class TeamDetailPage {
     if (this.isFavourite) {
       await this.storageService.remove(STORAGE_KEYS.favouriteTeam);
       this.isFavourite = false;
-      return;
+    } else {
+      await this.storageService.set(STORAGE_KEYS.favouriteTeam, this.team.idTeam);
+      this.isFavourite = true;
     }
 
-    await this.storageService.set(STORAGE_KEYS.favouriteTeam, this.team.idTeam);
-    this.isFavourite = true;
+    await this.themeService.refreshTeamTheme();
   }
 
   goHome(): void {
@@ -168,16 +171,26 @@ export class TeamDetailPage {
   }
 
   getPageBackground(): string {
-  if (!this.team?.strColour1) {
-    return 'var(--ion-color-light)';
+    if (!this.team?.strColour1) {
+      return 'var(--ion-color-light)';
+    }
+
+    const strong = this.team.strColour1;
+    const medium = this.hexToRgba(this.team.strColour1, 0.72);
+    const soft = this.hexToRgba(this.team.strColour1, 0.28);
+
+    return `linear-gradient(180deg, ${strong} 0%, ${medium} 28%, ${soft} 60%, var(--ion-color-light) 85%)`;
   }
 
-  const strong = this.team.strColour1;
-  const medium = this.hexToRgba(this.team.strColour1, 0.72);
-  const soft = this.hexToRgba(this.team.strColour1, 0.28);
+  getHeaderStyle(): Record<string, string> {
+    if (!this.team?.strColour1) {
+      return {};
+    }
 
-  return `linear-gradient(180deg, ${strong} 0%, ${medium} 28%, ${soft} 60%, var(--ion-color-light) 85%)`;
-}
+    return {
+      'background': this.team.strColour1
+    };
+  }
 
 
 }
